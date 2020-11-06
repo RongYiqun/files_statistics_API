@@ -56,11 +56,9 @@ function computeWeeklyMaxSessions(dateEntries) {
       }
     }
 
-    if (!isWeekStarted) {
-      if (currentDate.getDay() == 0) {
-        isWeekStarted = true;
-        week_start_from = dateString;
-      }
+    if (!isWeekStarted && currentDate.getDay() == 0) {
+      isWeekStarted = true;
+      week_start_from = dateString;
     }
 
     if (isWeekStarted) {
@@ -77,12 +75,15 @@ function computeWeeklyMaxSessions(dateEntries) {
     }
 
     if (currentDate.getDay() == 6) {
-      weekly_max_sessions_results[week_start_from] = weekly_max_sessions;
+      if (isWeekStarted) {
+        weekly_max_sessions_results[week_start_from] = weekly_max_sessions;
+      }
       isWeekStarted = false;
       weekly_max_sessions = {};
       week_start_from = null;
     }
   }
+
   return weekly_max_sessions_results;
 }
 
