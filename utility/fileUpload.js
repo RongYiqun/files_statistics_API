@@ -1,7 +1,7 @@
-var multer = require('multer');
-var path = require('path');
-var uuid = require('uuid');
-var storage = multer.diskStorage({
+const multer = require('multer');
+const path = require('path');
+const uuid = require('uuid');
+const storage = multer.diskStorage({
   destination: function (req, file, cb) {
     cb(null, 'uploads');
   },

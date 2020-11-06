@@ -7,16 +7,11 @@ const fs = require('fs');
 const util = require('util');
 const readFile = util.promisify(fs.readFile);
 
-/* GET home page. */
-router.get('/', function (req, res, next) {
-  res.json({ title: 'Express' });
-});
-
 router.post('/upload', upload.single('file'), (req, res, next) => {
   try {
     if (req.file) {
       var fileId = path.parse(req.file.filename).name;
-      const worker = new Worker('./task.js', {
+      const worker = new Worker('./utility/task.js', {
         workerData: { filename: `./uploads/${req.file.filename}`, fileId },
       });
       return res.status(201).json({ fileId });
@@ -26,12 +21,12 @@ router.post('/upload', upload.single('file'), (req, res, next) => {
       });
     }
   } catch (error) {
-    console.error(error);
+    return res.status(500).json(error);
   }
 });
 
-router.get('/fileInfo/:fileId', async (req, res, next) => {
-  const fileId = req.params.fileId;
+router.get('/analytics/file/:id', async (req, res, next) => {
+  const fileId = req.params.id;
   try {
     const data = await readFile(`analytics/${fileId}.json`, 'utf8');
     return res.status(200).json({
@@ -42,7 +37,7 @@ router.get('/fileInfo/:fileId', async (req, res, next) => {
     fs.access(`uploads/${fileId}.csv`, fs.F_OK, function (err) {
       if (err) {
         return res.status(200).json({
-          message: 'file not found',
+          message: 'file with this id not found',
         });
       } else {
         return res.status(200).json({
