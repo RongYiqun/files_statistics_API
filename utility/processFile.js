@@ -99,7 +99,6 @@ function processFile(fileName, fileId) {
       .on('data', (data) => {
         const date = data.Date;
         if (dateMap.has(date)) {
-          //construct hashmap (date, [row])
           dateMap.get(date).push(data);
         } else {
           dateMap.set(date, [data]);
