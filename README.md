@@ -10,5 +10,5 @@ To avoid "port in use" error, please don't run the program and the test in the s
 
 API:
 
-1.  '/upload'
-2.  '/analytics/file/:id'
+1.  '/upload' : When making a request to this endpont, remember to attaced csv file with name field 'file'.
+2.  '/analytics/file/:id' : When making a request to this endpont, ':id' means the fileId return from the upload endpoint after successful file load.
